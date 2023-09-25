@@ -1,27 +1,54 @@
 #include "sort.h"
-#include <stdio.h>
-
 
 /**
- * insertion_sort_list - sorts the given linked list
- * @list: doubly linked list
- * Return: noting
+ * swap - swaps 2 nodes in a doubly-linked list
+ * @a: address of first node
+ * @b: address of second node
+ *
+ * Return: void
  */
+void swap(listint_t *a, listint_t *b)
+{
+	if (a->prev)
+		a->prev->next = b;
+	if (b->next)
+		b->next->prev = a;
+	a->next = b->next;
+	b->prev = a->prev;
+	a->prev = b;
+	b->next = a;
 
+}
+
+/**
+ * insertion_sort_list - insertion sorts a doubly-linked list
+ * @list: address of pointer to head node
+ *
+ * Return: void
+ */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t **prev;
-	int temp;
+	listint_t *i, *j;
 
-	while (*list != NULL)
+	if (!list || !*list || !(*list)->next)
+		return;
+	i = (*list)->next;
+	while (i)
 	{
-		prev = list;
-		while (*prev != NULL && (*prev)->prev->n > (*prev)->n)
+		j = i;
+		i = i->next;
+		while (j && j->prev)
 		{
-			temp = (*prev)->prev->n;
-			(*prev)->prev->n = (*prev)->n;
-			(*prev)->n = temp;
-			prev = list.prev;
+			if (j->prev->n > j->n)
+			{
+				swap(j->prev, j);
+				if (!j->prev)
+					*list = j;
+				print_list((const listint_t *)*list);
+			}
+			else
+				j = j->prev;
 		}
+
 	}
 }
